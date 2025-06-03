@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with {{ employee_name }}</title>
+</head>
+<body>
+    <h2>Chat with {{ employee_name }}</h2>
+    <div style="border:1px solid #ccc; padding:10px; max-width:500px;">
+        {% for msg in chat_history %}
+            <p><strong>{{ msg.from|capitalize }}:</strong> {{ msg.message }} <span style="color:gray;font-size:small;">{{ msg.timestamp }}</span></p>
+        {% else %}
+            <p>No messages yet.</p>
+        {% endfor %}
+    </div>
+    <h3>Reply to {{ employee_name }}</h3>
+    <form action="{{ url_for('manager_dashboard.employee_chat', employee_id=employee_id) }}" method="POST">
+        <input type="text" name="message" placeholder="Type your reply..." required>
+        <button type="submit">Send Reply</button>
+    </form>
+    <h3>Ask Manager AI Assistant</h3>
+    <form action="{{ url_for('manager_dashboard.employee_chat', employee_id=employee_id) }}" method="POST">
+        <input type="text" name="ai_query" placeholder="Ask the AI..." required>
+        <button type="submit">Ask AI</button>
+    </form>
+    {% if ai_response %}
+        <div style="margin-top:10px; border:1px solid #eee; padding:8px;">
+            <strong>AI Assistant:</strong> {{ ai_response }}
+        </div>
+    {% endif %}
+    <a href="{{ url_for('manager_dashboard.dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

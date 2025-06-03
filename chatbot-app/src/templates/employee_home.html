@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Home</title>
+</head>
+<body>
+    <h2>Welcome, Employee {{ employee_id }}</h2>
+
+    <h3>Chat History</h3>
+    <div style="border:1px solid #ccc; padding:10px; max-width:500px;">
+        {% for msg in chat_history %}
+            <p><strong>{{ msg.from|capitalize }}:</strong> {{ msg.message }} <span style="color:gray;font-size:small;">{{ msg.timestamp }}</span></p>
+        {% else %}
+            <p>No messages yet.</p>
+        {% endfor %}
+    </div>
+
+    <h3>Send Message to Manager</h3>
+    <form action="{{ url_for('employee_chat.send_to_manager') }}" method="POST">
+        <input type="hidden" name="employee_id" value="{{ employee_id }}">
+        <input type="text" name="message" placeholder="Type your message..." required>
+        <button type="submit">Send</button>
+    </form>
+
+    <h3>Ask AI Assistant</h3>
+    <form action="{{ url_for('employee_chat.ai_assistant') }}" method="POST">
+        <input type="hidden" name="employee_id" value="{{ employee_id }}">
+        <input type="text" name="query" placeholder="Ask the AI..." required>
+        <button type="submit">Ask</button>
+    </form>
+</body>
+</html>

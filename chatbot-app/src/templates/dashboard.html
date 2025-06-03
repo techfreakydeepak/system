@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Manager Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="employee-status">
+                <h2>Employee Status</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Status</th>
+                            <th>Last Activity</th>
+                            <th>Chat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.name }}</td>
+                            <td>{{ employee.status }}</td>
+                            <td>{{ employee.last_activity }}</td>
+                            <td>
+                                <a href="{{ url_for('manager_dashboard.employee_chat', employee_id=employee.id) }}">
+                                    View Chat
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+            <section class="chat-summary">
+                <h2>Recent Chats</h2>
+                <ul>
+                    {% for chat in recent_chats %}
+                    <li>
+                        <strong>{{ chat.employee_name }}:</strong> {{ chat.message }}
+                        <span>{{ chat.timestamp }}</span>
+                        <a href="{{ url_for('manager_dashboard.employee_chat', employee_id=chat.employee_id) }}">View Chat</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
